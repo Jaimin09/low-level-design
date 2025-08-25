@@ -3,11 +3,13 @@ package atm;
 import lombok.Getter;
 import lombok.Setter;
 import model.Account;
+import model.Bill;
 import model.Card;
 import model.OperationType;
 import operation.AddMoneyService;
 import operation.OperationService;
 import operation.WithdrawMoneyService;
+import operation.request.OperationRequest;
 import state.AuthenticateState;
 import state.State;
 
@@ -16,7 +18,7 @@ import java.util.Map;
 
 public class Atm {
     private static Atm instance;
-    Inventory inventory = Inventory.getInstance();
+    Inventory inventory;
     @Setter
     private State currentState;
     Map<String, Account> accounts;
@@ -30,6 +32,7 @@ public class Atm {
 
     private Atm() {
         currentState = new AuthenticateState();
+        this.inventory = new Inventory();
         this.currentOperation = OperationType.IDLE;
         // Hard coding for now
         accounts = Map.of(
@@ -60,6 +63,10 @@ public class Atm {
         return operationServiceMap.get(operationType);
     }
 
+    public void addBill(Bill bill, int quantity) {
+        inventory.addBill(bill, quantity);
+    }
+
     // State methods;
     public void authenticate(String cardNumber, String pin) {
         currentState.authenticateCard(this, cardNumber, pin);
@@ -69,8 +76,8 @@ public class Atm {
         currentState.selectOperation(this, operationType);
     }
 
-    public void performOperation(int... args) {
-        currentState.operate(this, args);
+    public void performOperation(OperationRequest operationRequest) {
+        currentState.operate(this, operationRequest);
     }
 
     public void cancel() {

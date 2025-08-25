@@ -2,6 +2,7 @@ package state;
 
 import atm.Atm;
 import model.OperationType;
+import operation.request.OperationRequest;
 
 public class SelectOperationState implements State{
     @Override
@@ -10,7 +11,7 @@ public class SelectOperationState implements State{
     }
 
     @Override
-    public void operate(Atm atm, int... args) {
+    public void operate(Atm atm, OperationRequest operationRequest) {
         System.out.println("Please select operation first");
     }
 

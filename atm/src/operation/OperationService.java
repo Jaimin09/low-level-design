@@ -1,7 +1,8 @@
 package operation;
 
 import model.Account;
+import operation.request.OperationRequest;
 
-public interface OperationService {
-    void operate(Account account, int... args);
+public interface OperationService<S extends OperationRequest> {
+    void operate(Account account, S request);
 }

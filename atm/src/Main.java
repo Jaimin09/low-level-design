@@ -1,25 +1,28 @@
 import atm.Atm;
-import atm.Inventory;
 import model.Bill;
 import model.OperationType;
+import operation.request.AddMoneyRequest;
+import operation.request.WithdrawMoneyRequest;
 
 public class Main {
     public static void main(String[] args) {
-        // Supposed to be managed by Inventory Manager
-        Inventory inventory = Inventory.getInstance();
-        inventory.addBill(Bill.FIFTY, 2);
-        inventory.addBill(Bill.HUNDRED, 5);
-        inventory.addBill(Bill.FIVE_HUNDRED, 2);
-        inventory.addBill(Bill.TWO_THOUSAND, 1);
-
         Atm atm = Atm.getInstance();
+
+        // Supposed to be managed by Inventory Manager
+        atm.addBill(Bill.FIFTY, 2);
+        atm.addBill(Bill.HUNDRED, 5);
+        atm.addBill(Bill.FIVE_HUNDRED, 2);
+        atm.addBill(Bill.TWO_THOUSAND, 1);
+
 
         atm.authenticate("1234", "1234");
         atm.selectOperation(OperationType.ADD_MONEY);
-        atm.performOperation(350);
+        AddMoneyRequest amr1 = new AddMoneyRequest(350);
+        atm.performOperation(amr1);
 
         atm.selectOperation(OperationType.WITHDRAW);
-        atm.performOperation(1000);
+        WithdrawMoneyRequest wmr1 = new WithdrawMoneyRequest(1000);
+        atm.performOperation(wmr1);
 
         atm.selectOperation(OperationType.WITHDRAW);
         atm.cancel();

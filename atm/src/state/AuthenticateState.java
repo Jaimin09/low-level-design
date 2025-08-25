@@ -3,6 +3,7 @@ package state;
 
 import atm.Atm;
 import model.OperationType;
+import operation.request.OperationRequest;
 
 public class AuthenticateState implements State {
 
@@ -15,7 +16,7 @@ public class AuthenticateState implements State {
     }
 
     @Override
-    public void operate(Atm atm, int... args) {
+    public void operate(Atm atm, OperationRequest operationRequest) {
         System.out.println("Please authenticate first");
     }
 
